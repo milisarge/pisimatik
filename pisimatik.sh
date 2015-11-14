@@ -28,4 +28,4 @@ chroot $dizin /bin/bash -c "mkinitramfs"
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
 mksquashfs $dizin $isodizin/boot/pisi.sqfs
-genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o pisi_test.iso $isodizin && isohybrid pisi_test.iso
+genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o milis_pisi2.0.iso $isodizin && isohybrid milis_pisi2.0.iso

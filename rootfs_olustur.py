@@ -410,17 +410,29 @@ class Docker(Chroot):
         self.runOutside(tagcmd)
 
 if (__name__ == "__main__"):
-    os.system("mkdir -p %s" % CACHE)
-    J = Index("pisi-2.0","http://ciftlik.pisilinux.org/pisi-2.0/pisi-index.xml.xz")
-    K = Indexes()
-    K.addIndex(J)
-    K.setPriority("pisi-2.0")
-    x = Chroot(sys.argv[1], BASE, K)
-
-    x.addRepo("pisi-2.0", "http://ciftlik.pisilinux.org/pisi-2.0/pisi-index.xml.xz")
-    x.addRepo("source","https://github.com/pisilinux/core/raw/master/pisi-index.xml.xz")
-    x.installWithPisi()
-    x.installPackages(DEVEL)
-    x.runOutside("cp %s/* %s/var/cache/pisi/packages/" % (CACHE, x.root))
-    x.installWithPisi(DEVEL)
+	os.system("mkdir -p %s" % CACHE)
+	repolar=[]
+	with open('repo.ayar') as f:
+		satirlar = f.readlines()
+	repolar=[]
+	for satir in satirlar:	
+		satir=str(satir).strip()
+		if "#" not in satir:
+			repo=[satir.split("=")[0],satir.split("=")[1]]
+			repolar.append(repo)
+	isim=repolar[0][0]
+	adres=repolar[0][1]
+	J = Index(isim,adres)
+	K = Indexes()
+	K.addIndex(J)
+	K.setPriority(isim)
+	x = Chroot(sys.argv[1], BASE, K)
+	for repo in repolar:
+		x.addRepo(repo[0],repo[1])
+	#x.addRepo("pisi-2.0", "http://ciftlik.pisilinux.org/pisi-2.0/pisi-index.xml.xz")
+	#x.addRepo("source","https://github.com/pisilinux/core/raw/master/pisi-index.xml.xz")
+	x.installWithPisi()
+	x.installPackages(DEVEL)
+	x.runOutside("cp %s/* %s/var/cache/pisi/packages/" % (CACHE, x.root))
+	x.installWithPisi(DEVEL)
 
