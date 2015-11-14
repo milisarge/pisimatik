@@ -1,0 +1,11 @@
+*.iso
+iso_icerik/boot/pisi.sqfs
+iso_icerik/boot/kernel
+iso_icerik/boot/initrd
+*.pyc
+*.log
+paket/*
+kur/*
+.directory
+*.sha1sum
+*.pisi-index.xml*

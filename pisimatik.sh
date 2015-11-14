@@ -1,8 +1,7 @@
-#gerekliler:squashfs-tools,cdrkit,syslinux-utils
 dizin=kur
 isodizin=iso_icerik
 mkdir -p $dizin
-python base.py $dizin &&
+python paket_cek.py $dizin &&
 chroot $dizin /bin/bash -c "rm -r /boot/boot"
 chroot $dizin /bin/bash -c "service dbus on"
 chroot $dizin /bin/bash -c "service dbus start"
