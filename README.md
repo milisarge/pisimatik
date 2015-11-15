@@ -8,7 +8,11 @@ cdrkit
 syslinux-utils
 python-lxml
 
-./pisimatik.sh  komutuyla minimal bir pisi2.0 sürüm iso dosyası oluşur.
+genel kullanım:
+
+./pisimatik.sh repo-ayar-dosyası
+
+ör: "./pisimatik.sh repo2.0.ayar" komutuyla minimal bir pisi2.0 iso imakı oluşur.
 
 
 önemli not:

@@ -1,0 +1,2 @@
+pisi-1.0=http://packages.pisilinux.org/repositories/1.0/stable/x86_64/pisi-index.xml.xz
+source=https://github.com/pisilinux/core/raw/master/pisi-index.xml.xz

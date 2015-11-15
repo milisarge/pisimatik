@@ -220,21 +220,23 @@ class Pkg:
             self.deltas.append(delta)
 
     def fetch(self):
-        if not os.path.exists("%s/%s"  % (CACHE, self.fname)):
-            cmd = "wget -c %s/%s -O %s/%s" % (self.base, self.filename, CACHE, self.fname)
-            os.system(cmd)
-        else:
-            cmd = "sha1sum %s/%s | awk '{print $1}' "  % (CACHE, self.fname)
-            cachehash = os.popen(cmd,"r").readlines()[0].strip()
-            if cachehash != self.hash:
-                print "HASH FAILED: downloading again"
-                print "Expected : %s" % self.hash
-                print "Found    : %s" % cachehash
-                erase = "rm -rf %s/%s" % (CACHE, self.fname ) 
-                os.system(erase)
-                cmd = "wget  %s/%s -O %s/%s" % (self.base, self.filename, CACHE, self.fname)
-                os.system(cmd)
-
+		if not os.path.exists("%s/%s"  % (CACHE, self.fname)):
+			cmd = "wget -c %s/%s -O %s/%s" % (self.base, self.filename, CACHE, self.fname)
+			if "delta.pisi" not in cmd:
+				os.system(cmd)
+		else:
+			cmd = "sha1sum %s/%s | awk '{print $1}' "  % (CACHE, self.fname)
+			cachehash = os.popen(cmd,"r").readlines()[0].strip()
+			if cachehash != self.hash:
+				print "HASH FAILED: downloading again"
+				print "Expected : %s" % self.hash
+				print "Found    : %s" % cachehash
+				erase = "rm -rf %s/%s" % (CACHE, self.fname ) 
+				os.system(erase)
+				cmd = "wget  %s/%s -O %s/%s" % (self.base, self.filename, CACHE, self.fname)
+				if "delta.pisi" not in cmd:
+					os.system(cmd)
+			
     def install(self, target, withPisi = False):
         self.fetch()
         if withPisi == False:
@@ -242,10 +244,12 @@ class Pkg:
             for dlt in self.deltas:
                 d = dlt.split("/")[-1]
                 if not os.path.exists("%s/%s" % (CACHE, d)):
-                    cmd = "wget %s/%s -O %s/%s" % (self.base, dlt, CACHE, d)
-                    os.system(cmd)
-                    p = Paket(d, target)
-        else:
+                    if "delta" not in self.filename:
+                      cmd = "wget %s/%s -O %s/%s" % (self.base, dlt, CACHE, d)
+                      if "delta.pisi" not in cmd:
+                        os.system(cmd)
+                      p = Paket(d, target)
+        else: 
             cmd = "pisi it --ignore-safety --ignore-dependency --ignore-comar  -D %s -y %s/%s" \
                   % (target, "%s/%s" % (CACHE, d))
 
@@ -412,7 +416,8 @@ class Docker(Chroot):
 if (__name__ == "__main__"):
 	os.system("mkdir -p %s" % CACHE)
 	repolar=[]
-	with open('repo.ayar') as f:
+	repo_dosyasi=sys.argv[2]
+	with open(repo_dosyasi) as f:
 		satirlar = f.readlines()
 	repolar=[]
 	for satir in satirlar:	

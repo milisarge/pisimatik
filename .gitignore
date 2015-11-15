@@ -4,7 +4,7 @@ iso_icerik/boot/kernel
 iso_icerik/boot/initrd
 *.pyc
 *.log
-paket/*
+paket*
 kur/*
 .directory
 *.sha1sum
