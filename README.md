@@ -12,7 +12,7 @@ genel kullanım:
 
 ./pisimatik.sh repo-ayar-dosyası
 
-ör: "./pisimatik.sh repo2.0.ayar" komutuyla minimal bir pisi2.0 iso imakı oluşur.
+ör: "./pisimatik.sh repo2.0.ayar" komutuyla minimal bir pisi2.0 iso imajı oluşur.
 
 
 önemli not:
