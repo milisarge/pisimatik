@@ -25,8 +25,16 @@ chroot $dizin /bin/bash -c "pisi -y it xkeyboard-config"
 chroot $dizin /bin/bash -c "pisi -y it xinit"
 
 #lxde masa kurulum
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.xfce"
-#chroot $dizin /bin/bash -c "pisi -y it -c desktop.xfce4"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.razor-qt"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.enlightenment"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.fluxbox"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.gnome"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.gnome2"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.lxqt"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.font"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.lookandfeel"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.mate"
+chroot $dizin /bin/bash -c "pisi -y it -c desktop.toolkit"
 #chroot $dizin /bin/bash -c "pisi -y it -c desktop.mate"
 #chroot $dizin /bin/bash -c "pisi -y it -c desktop.kde"
 
