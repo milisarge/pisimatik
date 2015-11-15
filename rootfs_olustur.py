@@ -174,12 +174,14 @@ class Index:
                             if e.tag == "Update":
                                 self.packages[pname].setRelease(int(e.attrib["release"]))
                                 found = True
+                    '''
                     if d.tag == "DeltaPackages":
                         for e in d.getchildren():
                             if e.tag == "Delta":
                                 for f in e.getchildren():
                                     if f.tag == "PackageURI":
                                         self.packages[pname].addDelta(f.text)
+                    '''
 
     def report(self):
         for pname, pkg in self.packages.items():
