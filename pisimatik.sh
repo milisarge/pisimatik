@@ -15,9 +15,16 @@ chroot $dizin /bin/bash -c "service dbus start"
 chroot $dizin /bin/bash -c "pisi -y it kernel"
 chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 
-#dracut entegre1
+#dracut uzak entegre1
+#dracutlink="xxx"
+#curl $dracutlink -o dracut.tar.xz
+#tar xf dracut.tar.xz -C paket/
+
+#dracut lokal entegre1
 rsync -av paket/dracut/* $dizin/tmp
 chroot $dizin /bin/bash -c "pisi -y it /tmp/*.pisi"
+
+
 
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
