@@ -16,8 +16,10 @@ chroot $dizin /bin/bash -c "pisi -y it kernel"
 chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 
 #dracut entegre1
-cp paket/dracut*.pisi $dizin/tmp/dracut.pisi
-chroot $dizin /bin/bash -c "pisi -y it /tmp/dracut.pisi"
+rsync -av paket/dracut/* $dizin/var/cache/pisi/packages
+chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/dracut*.pisi"
+chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/lsinitrd*.pisi"
+chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/mkinitrd*.pisi"
 
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
@@ -58,5 +60,7 @@ chroot $dizin /bin/bash -c "dracut /boot/initramfs.img 3.19.8"
 
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
-mksquashfs $dizin $isodizin/boot/pisi.sqfs
+#eski vers.
+#mksquashfs $dizin $isodizin/boot/pisi.sqfs
+./squash.sh
 genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o milis_pisi2.0.iso $isodizin && isohybrid milis_pisi2.0.iso
