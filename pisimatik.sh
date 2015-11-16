@@ -56,9 +56,9 @@ rm -r -f $dizin/tmp/*
 #mkinitramfs eski
 #chroot $dizin /bin/bash -c "mkinitramfs"
 #dracut entegre2
-mkdir -p $dizin/usr/lib/dracut/modules.d/01vmklive
-cp dracut/* $dizin/usr/lib/dracut/modules.d/01vmklive/
-chroot $dizin /bin/bash -c "dracut -N --xz --force-add vmklive  --omit systemd /boot/initramfs.img 3.19.8"
+mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
+cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
+chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img 3.19.8"
 
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
