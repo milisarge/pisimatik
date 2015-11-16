@@ -16,10 +16,8 @@ chroot $dizin /bin/bash -c "pisi -y it kernel"
 chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 
 #dracut entegre1
-rsync -av paket/dracut/* $dizin/var/cache/pisi/packages
-chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/dracut*.pisi"
-chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/lsinitrd*.pisi"
-chroot $dizin /bin/bash -c "pisi -y it /var/cache/pisi/packages/mkinitrd*.pisi"
+rsync -av paket/dracut/* $dizin/tmp
+chroot $dizin /bin/bash -c "pisi -y it /tmp/*.pisi"
 
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
@@ -48,7 +46,7 @@ chmod 777 $dizin/tmp
 #mkinitramfs eski
 #touch $dizin/etc/initramfs.conf
 #echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
-echo "exec openbox-session" > $dizin/root/.xinitrc
+echo "exec startlxqt" > $dizin/root/.xinitrc
 #rsync -av $dizin/var/cache/pisi/packages/* paket/
 rm -r -f $dizin/var/cache/pisi/packages/*
 rm -r -f $dizin/tmp/*
@@ -65,4 +63,4 @@ mv $dizin/boot/initramfs* $isodizin/boot/initrd
 #eski vers.
 #mksquashfs $dizin $isodizin/boot/pisi.sqfs
 ./squash.sh
-genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o milis_pisi2.0.iso $isodizin && isohybrid milis_pisi2.0.iso
+genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o milis_pisi.iso $isodizin && isohybrid milis_pisi.iso
