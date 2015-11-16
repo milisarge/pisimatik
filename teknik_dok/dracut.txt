@@ -1,0 +1,38 @@
+You can also look at modules.d/90dmsquash-live, which makes a
+squashfs-compressed filesystem writeable by using device-mapper to
+redirect writes to a different block device (like a loop device backed
+by a file on tmpfs).
+
+Note, though, that this requires a filesystem image *inside* squashfs.
+The trouble with squashfs is that it's not writeable - it doesn't even
+support the "write()" system call. So you can't just tell device-mapper
+"send writes over here", because writes aren't allowed.
+
+So instead you put (e.g.) an ext3 filesystem image inside squashfs, and
+create an overlay file in tmpfs to use as the write device, and it looks
+like this:
+
+squashfs.img -> /rootfs.img -> /dev/loop0 
+tmpfs        -> /overlay    -> /dev/loop1
+/dev/loop0 + /dev/loop1     -> /dev/mapper/live-rw
+
+See dmsquash-live-root.sh for how it's actually done.
+
+If you just want to try it out, you can do this:
+
+1) make a dracut initramfs that contains the 'dmsquash-live' module
+2) make a ext3 image named 'rootfs.img' that contains your real root
+3) make a squashfs image that contains '/rootfs.img'
+4) put the squashfs image in the initramfs (say at /squashfs.img)
+5) boot with 'root=live:/squashfs.img'[1]
+
+It's not super-pretty, but it gets the job done.
+(This is how the RHEL/Fedora installer runs, btw.)
+
+Hope that's useful somehow...
+
+-w
+
+[1] You can also do stuff like "root=live:http://.../squashfs.img"; or 
+    root=live:LABEL=LIVEDEV (if the image is at /LiveOS/rootfs.img)
+
