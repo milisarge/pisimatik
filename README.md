@@ -10,9 +10,9 @@ python-lxml
 
 genel kullanım:
 
-./pisimatik.sh repo-ayar-dosyası
+./pisimatik.sh       repo-ayar-dosyası      kurulacak-paketler-listesi 
 
-ör: "./pisimatik.sh repo2.0.ayar" komutuyla minimal bir pisi2.0 iso imajı oluşur.
+ör: "./pisimatik.sh repo2.0.ayar min.ayar" komutuyla minimal bir pisi2.0 iso imajı oluşur.
 
 
 önemli not:
@@ -20,3 +20,5 @@ pisimatik.sh ı root kullanıcısıyla çalıştırın.pisimatik içindeki komut
 
 elinizde reponun paketleri varsa pisimatik dizininde paket dizini oluşturun,içine atın veya pisi 2.0 kullanıyorsanız pisi paket depolama dizinini kısayol gösterin. 
 Her sefer internetten indirmesine gerek kalmaz. 
+
+test aşamasındadır,hataları lütfen bildiriniz.
