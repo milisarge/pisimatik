@@ -50,29 +50,7 @@ class Indexes:
         o paket kullanilir.
 
         Priority verilmemis ise, eklenmis butun depolarda ayni paketi arar,
-        buldugu en yuksek release degerli paketi repo adi ile birlikte doner.
-
-        Ornek :
-
-        I = Index("farm","http://farm.pisilinux.org/.nofarm-repo/x86_64/pisi-index.xml.xz")
-        J = Index("ilker","http://manap.se/pisi/pisi-index.xml.xz")
-
-        # I ve J, farm ve kisiye ozel repo.
-        K = Indexes()
-        # Indexes nesnemiz
-        K.addIndex(I)
-        K.addIndex(J)
-        K.setPriority("ilker")
-        # repolari ekleyip, ilker reposunu oncelikli yapiyoruz.
-        repoadi, pkg = K.package("gcc")
-
-        Yukaridaki komut ile, ilker reposunda gcc varsa repoadi = "ilker",
-        pkg = ilker reposundaki gcc paketine isaret eden Pkg nesnesi olur.
-
-        pkg.install()  komutu ile, lokalde gcc paketi yoksa, repodan cekilir,
-        pisi kullanilmadan, paket icinde bulunan install.tar.xz paketi sisteme
-        acilarak kurulur.
-
+        buldugu en yuksek release degerli paketi repo adi ile birlikte doner
         """
         selected = 0
         pkg = None

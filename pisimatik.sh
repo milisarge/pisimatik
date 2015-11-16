@@ -1,4 +1,5 @@
 repo=$1
+kurpak=$2
 dizin=kur
 isodizin=iso_icerik
 #temel chroot ortaminin olusturulmasi
@@ -10,40 +11,21 @@ chroot $dizin /bin/bash -c "service dbus on"
 chroot $dizin /bin/bash -c "service dbus start"
 
 #base sistemin kurulumu
-chroot $dizin /bin/bash -c "pisi -y it -c system.base"
+#chroot $dizin /bin/bash -c "pisi -y it -c system.base"
 chroot $dizin /bin/bash -c "pisi -y it kernel"
+chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 
-#x11 kurulum
-chroot $dizin /bin/bash -c "pisi -y it -c x11.server"
-chroot $dizin /bin/bash -c "pisi -y it xorg-video-vesa"
-chroot $dizin /bin/bash -c "pisi -y it xorg-video-vmware"
-chroot $dizin /bin/bash -c "pisi -y it xorg-input-vmmouse"
-chroot $dizin /bin/bash -c "pisi -y it xorg-input-evdev"
-chroot $dizin /bin/bash -c "pisi -y it xorg-input-kbd"
-chroot $dizin /bin/bash -c "pisi -y it xorg-input-mouse"
-chroot $dizin /bin/bash -c "pisi -y it xkeyboard-config"
-chroot $dizin /bin/bash -c "pisi -y it xinit"
+#dracut entegre1
+cp paket/dracut*.pisi $dizin/tmp/dracut.pisi
+chroot $dizin /bin/bash -c "pisi -y it /tmp/dracut.pisi"
 
-#lxde masa kurulum
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.razor-qt"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.enlightenment"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.fluxbox"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.gnome"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.gnome2"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.lxqt"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.font"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.lookandfeel"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.mate"
-chroot $dizin /bin/bash -c "pisi -y it -c desktop.toolkit"
-#chroot $dizin /bin/bash -c "pisi -y it -c desktop.mate"
-#chroot $dizin /bin/bash -c "pisi -y it -c desktop.kde"
-
-#giris yoneticisi kurulum
-chroot $dizin /bin/bash -c "pisi -y it lxdm"
+while read p; do
+  chroot $dizin /bin/bash -c "pisi -y it ""$p"
+done < $kurpak
 
 #paket ayarlama
 chroot $dizin /bin/bash -c "pisi cp"
-
+rm -r $dizin/boot/initramfs*
 #mevcut parola dosyasinin aktarilmasi
 mv $dizin/etc/shadow $dizin/etc/shadow.orj
 cp /etc/shadow $dizin/etc/
@@ -51,6 +33,7 @@ cp /etc/shadow $dizin/etc/
 #dns sunucu ayarlama
 mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 cp /etc/resolv.conf $dizin/etc/
+
 umount $dizin/proc
 umount $dizin/sys
 rm -r -f $dizin/dev
@@ -60,12 +43,19 @@ mknod -m 666 $dizin/dev/null c 1 3
 mknod -m 666 $dizin/dev/random c 1 8
 mknod -m 666 $dizin/dev/urandom c 1 9
 chmod 777 $dizin/tmp
-touch $dizin/etc/initramfs.conf
-echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
+#mkinitramfs eski
+#touch $dizin/etc/initramfs.conf
+#echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
+echo "exec openbox-session" > $dizin/root/.xinitrc
 rsync -av $dizin/var/cache/pisi/packages/* paket/
 rm -r -f $dizin/var/cache/pisi/packages/*
 rm -r -f $dizin/tmp/*
-chroot $dizin /bin/bash -c "mkinitramfs"
+
+#mkinitramfs eski
+#chroot $dizin /bin/bash -c "mkinitramfs"
+#dracut entegre2
+chroot $dizin /bin/bash -c "dracut /boot/initramfs.img 3.19.8"
+
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
 mksquashfs $dizin $isodizin/boot/pisi.sqfs
