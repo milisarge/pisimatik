@@ -49,14 +49,16 @@ chmod 777 $dizin/tmp
 #touch $dizin/etc/initramfs.conf
 #echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
 echo "exec openbox-session" > $dizin/root/.xinitrc
-rsync -av $dizin/var/cache/pisi/packages/* paket/
+#rsync -av $dizin/var/cache/pisi/packages/* paket/
 rm -r -f $dizin/var/cache/pisi/packages/*
 rm -r -f $dizin/tmp/*
 
 #mkinitramfs eski
 #chroot $dizin /bin/bash -c "mkinitramfs"
 #dracut entegre2
-chroot $dizin /bin/bash -c "dracut /boot/initramfs.img 3.19.8"
+mkdir -p $dizin/usr/lib/dracut/modules.d/01vmklive
+cp dracut/* $dizin/usr/lib/dracut/modules.d/01vmklive/
+chroot $dizin /bin/bash -c "dracut -N --xz --force-add vmklive  --omit systemd /boot/initramfs.img 3.19.8"
 
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
