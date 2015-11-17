@@ -35,8 +35,8 @@ rm -r $dizin/boot/initramfs*
 mv $dizin/etc/shadow $dizin/etc/shadow.orj
 cp /etc/shadow $dizin/etc/
 #fstab ayarlama
-mv $dizin/etc/fstab $dizin/etc/fstab.orj
-cp /degisim/fstab $dizin/etc/
+#mv $dizin/etc/fstab $dizin/etc/fstab.orj
+#cp /degisim/fstab $dizin/etc/
 
 #dns sunucu ayarlama
 mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
