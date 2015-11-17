@@ -7,5 +7,5 @@ xorg-input-kbd
 xorg-input-mouse
 xkeyboard-config
 xinit
--c desktop.xfce4
+-c desktop.xfce
 lxdm
