@@ -1,5 +1,5 @@
 # pisimatik
-pisilinux2.0 iso türetme ve kurulum aracı
+pisilinux iso türetme ve kurulum aracı
 
 gerekliler
 
@@ -10,15 +10,17 @@ python-lxml
 
 genel kullanım:
 
-./pisimatik.sh       repo-ayar-dosyası      kurulacak-paketler-listesi 
+./pisimatik.sh  repo-dosyası  kurulacaklar-dosyası
 
-ör: "./pisimatik.sh repo2.0.ayar min.ayar" komutuyla minimal bir pisi2.0 iso imajı oluşur.
+ör: "./pisimatik.sh repo2 min_live"
+
+ör: "./pisimatik.sh repo1 xfce4_live"
 
 
 önemli not:
 pisimatik.sh ı root kullanıcısıyla çalıştırın.pisimatik içindeki komutların root la çalıştığından emin olunuz.
 
-elinizde reponun paketleri varsa pisimatik dizininde paket dizini oluşturun,içine atın veya pisi 2.0 kullanıyorsanız pisi paket depolama dizinini kısayol gösterin. 
+elinizde reponun paketleri varsa pisimatik dizininde paket dizini oluşturun,içine atın veya pisilinux kullanıyorsanız pisi paket depolama dizinini kısayol gösterin. 
 Her sefer internetten indirmesine gerek kalmaz. 
 
 test aşamasındadır,hataları lütfen bildiriniz.

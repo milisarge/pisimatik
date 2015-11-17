@@ -24,8 +24,6 @@ chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 rsync -av paket/dracut/* $dizin/tmp
 chroot $dizin /bin/bash -c "pisi -y it /tmp/*.pisi"
 
-
-
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
 done < $kurpak
@@ -53,8 +51,9 @@ chmod 777 $dizin/tmp
 #mkinitramfs eski
 #touch $dizin/etc/initramfs.conf
 #echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
-echo "exec startlxqt" > $dizin/root/.xinitrc
-#rsync -av $dizin/var/cache/pisi/packages/* paket/
+masakos="startxfce4"
+echo "exec "$masakos > $dizin/root/.xinitrc
+rsync -av $dizin/var/cache/pisi/packages/* paket/
 rm -r -f $dizin/var/cache/pisi/packages/*
 rm -r -f $dizin/tmp/*
 
