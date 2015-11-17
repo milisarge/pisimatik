@@ -7,4 +7,5 @@ rm *.log
 rm iso_icerik/boot/pisi.sqfs
 rm iso_icerik/boot/kernel*
 rm iso_icerik/boot/initrd*
-rm iso_icerik/LiveOS/*
+rm iso_icerik/LiveOS/*.img
+rm -rf temp-root tmp
