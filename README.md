@@ -12,9 +12,9 @@ genel kullanım:
 
 ./pisimatik.sh  repo-dosyası  kurulacaklar-dosyası
 
-ör: "./pisimatik.sh repo2 min_live"
+ör: "./pisimatik.sh repo2 min_live"  masaüstüsüz minimal bir ortam oluşur.
 
-ör: "./pisimatik.sh repo1 xfce4_live"
+ör: "./pisimatik.sh repo1 xfce4_live_min"  hafif bir xfce4 ortamı oluşmaktadır.
 
 
 önemli not:
