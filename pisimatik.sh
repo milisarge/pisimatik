@@ -41,7 +41,7 @@ cp /etc/shadow $dizin/etc/
 #fstab ayarlama
 #mv $dizin/etc/fstab $dizin/etc/fstab.orj
 #cp eklenti/fstab $dizin/etc/
-cp eklenti/lock.sh $dizin/opt/
+cp eklenti/tamir $dizin/usr/local/bin/
 
 #ikon ayarlama test
 #ln -s /usr/share/icons/theme-name/cursors ~/.icons/default/cursors
@@ -81,6 +81,7 @@ rm -r -f $dizin/tmp/*
 mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 chroot $dizin /bin/bash -c "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
+chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
 chroot $dizin /bin/bash -c "service xdm start"
 chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img 3.19.8"
 
