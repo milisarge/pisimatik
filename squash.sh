@@ -1,9 +1,9 @@
 squash_olustur() {
     mkdir -p tmp
     mkdir -p tmp/LiveOS
-    fallocate -l 6G tmp/LiveOS/rootfs.img
+    fallocate -l 8G tmp/LiveOS/rootfs.img
     mkdir -p temp-root
-    mkfs.ext3 -F -m1 tmp/LiveOS/rootfs.img
+    mkfs.ext3 tmp/LiveOS/rootfs.img
     mount -o loop tmp/LiveOS/rootfs.img temp-root
     cp -a kur/* temp-root/
     umount temp-root/
