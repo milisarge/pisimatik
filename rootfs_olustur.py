@@ -1,5 +1,6 @@
 import os, sys
 from kayit import *
+
 # -*- coding: utf8 -*-
 
 BASE = "acl attr baselayout bash bzip2 ca-certificates catbox comar comar-api coreutils cpio cracklib curl db dbus dbus-glib dbus-python diffutils elfutils expat file findutils gdbm gettext glib2 glibc gmp gnutls gperftools grep gzip kernel-headers less leveldb libbsd libcap libcap-ng libffi libgcc libgomp libidn libpcre libsigsegv libssh2 libunistring libunwind libuser libxml2 mudur nasm ncurses openssl pam patch perl piksemel pisi pisilinux-python plyvel popt procps pycurl python python-pyliblzma readline run-parts sed shadow snappy sqlite tar unzip urlgrabber which xz zip zlib".split()
