@@ -3,10 +3,10 @@ squash_olustur() {
     mkdir -p tmp/LiveOS
     fallocate -l 8G tmp/LiveOS/rootfs.img
     mkdir -p temp-root
-    mkfs.ext3 tmp/LiveOS/rootfs.img
+    mkfs.ext4 tmp/LiveOS/rootfs.img
     mount -o loop tmp/LiveOS/rootfs.img temp-root
     cp -a kur/* temp-root/
-    umount temp-root/
+    umount temp-root
     mkdir -p iso_icerik/LiveOS
     mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz
     chmod 444 iso_icerik/LiveOS/squashfs.img

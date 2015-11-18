@@ -8,4 +8,18 @@ xorg-input-mouse
 xkeyboard-config
 xinit
 -c desktop.lxqt
+firefox
+geany
+nikto
+galculator
+alsa-utils
+leafpad
+rdesktop
+xawtv
+git
+gnumeric
+gvfs
+htop
+pcmanfm
+xdm
 lxdm
