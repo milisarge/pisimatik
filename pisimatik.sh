@@ -56,7 +56,7 @@ chmod 777 $dizin/tmp
 #echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
 masakos="startxfce4"
 echo "exec "$masakos > $dizin/root/.xinitrc
-rsync -av $dizin/var/cache/pisi/packages/* paket/
+#rsync -av $dizin/var/cache/pisi/packages/* paket/
 rm -r -f $dizin/var/cache/pisi/packages/*
 rm -r -f $dizin/tmp/*
 

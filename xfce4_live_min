@@ -8,4 +8,17 @@ xorg-input-mouse
 xkeyboard-config
 xinit
 -c desktop.xfce
+alsa-utils
+eog
+firefox
+galculator
+geany
+git
+gnumeric
+gvfs
+htop
+icon-theme-oxygen-png
+leafpad
+rdesktop
+xawtv
 lxdm
