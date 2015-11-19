@@ -12,8 +12,9 @@ chroot $dizin /bin/bash -c "service dbus start"
 
 #base sistemin kurulumu
 #chroot $dizin /bin/bash -c "pisi -y it -c system.base"
-chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"
 chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"
+
 
 #dracut uzak entegre1
 #dracutlink="xxx"
@@ -21,19 +22,25 @@ chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 #tar xf dracut.tar.xz -C paket/
 
 #dracut lokal entegre1
-rsync -av paket/dracut/* $dizin/tmp
-chroot $dizin /bin/bash -c "pisi -y it /tmp/*.pisi"
+rsync -av paket/dracut/ $dizin/opt
+chroot $dizin /bin/bash -c "pisi -y it /opt/*.pisi"
 
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
 done < $kurpak
 
-#paket ayarlama
-chroot $dizin /bin/bash -c "pisi cp"
-rm -r $dizin/boot/initramfs*
-
+#chroot ayirma-umount
 umount $dizin/proc
 umount $dizin/sys 
+
+#paket ayarlama
+#chroot $dizin /bin/bash -c "pisi cp"
+rm -r $dizin/boot/initramfs*
+
+#repo olusturma
+#chroot $dizin /bin/bash -c "cd /var/cache/pisi/packages/ && pisi ix . --skip-signing"
+#mkdir -p $isodizin/repo
+#rsync -av $dizin/var/cache/pisi/packages/ $isodizin/repo
 
 #mevcut parola dosyasinin aktarilmasi
 mv $dizin/etc/shadow $dizin/etc/shadow.orj
@@ -43,20 +50,20 @@ cp /etc/shadow $dizin/etc/
 #cp eklenti/fstab $dizin/etc/
 cp eklenti/tamir $dizin/usr/local/bin/
 
-#ikon ayarlama test
-#ln -s /usr/share/icons/theme-name/cursors ~/.icons/default/cursors
+#ikon ayarlama 
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons"
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default"
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default/cursors"
+chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/cursors /root/.icons/default/"
 
 #dns sunucu ayarlama
 mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 cp /etc/resolv.conf $dizin/etc/
 
-#repo olusturma
-#chroot $dizin /bin/bash -c "cd /var/cache/pisi/packages/ && pisi ix --skip-sig ./"
-#mkdir -p $isodizin/repo
-#rsync -av $dizin/var/cache/pisi/packages/* $isodizin/repo/
-
 #cache yedekleme
-#rsync -av $dizin/var/cache/pisi/packages/* paket/
+rsync -av $dizin/var/cache/pisi/packages/* paket/
+
+
 
 rm -r -f $dizin/dev
 mkdir -p $dizin/dev
@@ -78,6 +85,8 @@ rm -r -f $dizin/tmp/*
 #mkinitramfs eski
 #chroot $dizin /bin/bash -c "mkinitramfs"
 #dracut entegre2
+
+
 mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 chroot $dizin /bin/bash -c "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
@@ -87,6 +96,7 @@ chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boo
 
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
+
 #eski vers.
 #mksquashfs $dizin $isodizin/boot/pisi.sqfs
 ./squash.sh

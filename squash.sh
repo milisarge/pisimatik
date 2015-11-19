@@ -1,3 +1,4 @@
+dizin=kur
 squash_olustur() {
     mkdir -p tmp
     mkdir -p tmp/LiveOS
@@ -5,12 +6,13 @@ squash_olustur() {
     mkdir -p temp-root
     mkfs.ext4 tmp/LiveOS/rootfs.img
     mount -o loop tmp/LiveOS/rootfs.img temp-root
-    cp -a kur/* temp-root/
+    rsync -a kur/ temp-root
     umount temp-root
+    umount tmp/LiveOS/rootfs.img
     mkdir -p iso_icerik/LiveOS
     mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz
     chmod 444 iso_icerik/LiveOS/squashfs.img
-    rm -rf temp-root tmp
+    rm -rf temp-root tmp $dizin
 }
 
 squash_olustur

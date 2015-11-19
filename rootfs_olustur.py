@@ -3,8 +3,13 @@ from kayit import *
 
 # -*- coding: utf8 -*-
 
-BASE = "acl attr baselayout bash bzip2 ca-certificates catbox comar comar-api coreutils cpio cracklib curl db dbus dbus-glib dbus-python diffutils elfutils expat file findutils gdbm gettext glib2 glibc gmp gnutls gperftools grep gzip kernel-headers less leveldb libbsd libcap libcap-ng libffi libgcc libgomp libidn libpcre libsigsegv libssh2 libunistring libunwind libuser libxml2 mudur nasm ncurses openssl pam patch perl piksemel pisi pisilinux-python plyvel popt procps pycurl python python-pyliblzma readline run-parts sed shadow snappy sqlite tar unzip urlgrabber which xz zip zlib".split()
-DEVEL = "autoconf autogen automake binutils bison flex gawk gc gcc gmp gnuconfig guile libmpc libtool-ltdl libtool lzo m4 make mpfr pkgconfig python-iniparse yacc glibc-devel".split()
+TEMEL_SISTEM = "acl attr baselayout bash bzip2 ca-certificates catbox comar comar-api coreutils cpio cracklib curl db \
+dbus dbus-glib dbus-python diffutils elfutils expat file findutils gdbm gettext glib2 glibc gmp gnutls gperftools \
+grep gzip kernel-headers less leveldb libbsd libcap libcap-ng libffi libgcc libgomp libidn libpcre libsigsegv libssh2 \
+libunistring libunwind libuser libxml2 mudur nasm ncurses openssl pam patch perl piksemel pisi pisilinux-python plyvel \
+popt procps pycurl python python-pyliblzma readline run-parts sed shadow snappy sqlite tar unzip urlgrabber which xz zip zlib \
+autoconf autogen automake binutils bison flex gawk gc gcc gmp gnuconfig guile libmpc libtool-ltdl libtool lzo m4 make mpfr pkgconfig python-iniparse yacc glibc-devel".split()
+
 CACHE = "paket"
 
 class Indexes:
@@ -412,13 +417,14 @@ if (__name__ == "__main__"):
 	K = Indexes()
 	K.addIndex(J)
 	K.setPriority(isim)
-	x = Chroot(sys.argv[1], BASE, K)
+	x = Chroot(sys.argv[1],TEMEL_SISTEM, K)
 	for repo in repolar:
 		x.addRepo(repo[0],repo[1])
 	#x.addRepo("pisi-2.0", "http://ciftlik.pisilinux.org/pisi-2.0/pisi-index.xml.xz")
 	#x.addRepo("source","https://github.com/pisilinux/core/raw/master/pisi-index.xml.xz")
 	x.installWithPisi()
-	x.installPackages(DEVEL)
+	#x.installPackages(DEVEL)
+	# indirilen paketleri depolama
 	x.runOutside("cp %s/* %s/var/cache/pisi/packages/" % (CACHE, x.root))
-	x.installWithPisi(DEVEL)
+	#x.installWithPisi(DEVEL)
 
