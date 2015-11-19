@@ -12,7 +12,8 @@ chroot $dizin /bin/bash -c "service dbus start"
 
 #base sistemin kurulumu
 #chroot $dizin /bin/bash -c "pisi -y it -c system.base"
-chroot $dizin /bin/bash -c "pisi -y it kernel"
+chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"
 
 
 #dracut uzak entegre1
@@ -27,6 +28,10 @@ chroot $dizin /bin/bash -c "pisi -y it /opt/*.pisi"
 while read p; do
   chroot $dizin /bin/bash -c "pisi -y it ""$p"
 done < $kurpak
+
+#chroot ayirma-umount
+umount $dizin/proc
+umount $dizin/sys 
 
 #paket ayarlama
 #chroot $dizin /bin/bash -c "pisi cp"
@@ -56,7 +61,9 @@ mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 cp /etc/resolv.conf $dizin/etc/
 
 #cache yedekleme
-#rsync -av $dizin/var/cache/pisi/packages/* paket/
+rsync -av $dizin/var/cache/pisi/packages/* paket/
+
+
 
 rm -r -f $dizin/dev
 mkdir -p $dizin/dev
@@ -78,7 +85,7 @@ rm -r -f $dizin/tmp/*
 #mkinitramfs eski
 #chroot $dizin /bin/bash -c "mkinitramfs"
 #dracut entegre2
-chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+
 
 mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
@@ -88,9 +95,6 @@ chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boo
 
 mv $dizin/boot/kernel* $isodizin/boot/kernel
 mv $dizin/boot/initramfs* $isodizin/boot/initrd
-
-umount $dizin/proc
-umount $dizin/sys 
 
 #eski vers.
 #mksquashfs $dizin $isodizin/boot/pisi.sqfs
