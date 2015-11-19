@@ -1,8 +1,17 @@
-nano
+-c x11.server
+xorg-video-vesa
+xorg-video-vmware
+xorg-input-vmmouse
+xorg-input-evdev
+xorg-input-kbd
+xorg-input-mouse
+xkeyboard-config
+xinit
 iputils
 yali
 tint2
 openbox
+openbox-menu
 pcmanfm
 xdm
 lxdm
