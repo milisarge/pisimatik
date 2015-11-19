@@ -5,7 +5,7 @@ squash_olustur() {
     mkdir -p temp-root
     mkfs.ext4 tmp/LiveOS/rootfs.img
     mount -o loop tmp/LiveOS/rootfs.img temp-root
-    cp -a kur/* temp-root/
+    rsync -a kur/* temp-root/
     umount temp-root
     mkdir -p iso_icerik/LiveOS
     mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz

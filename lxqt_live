@@ -8,6 +8,7 @@ xorg-input-mouse
 xkeyboard-config
 xinit
 -c desktop.lxqt
+adwaita-icon-theme
 firefox
 geany
 nikto

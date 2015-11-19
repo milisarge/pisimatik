@@ -12,8 +12,8 @@ chroot $dizin /bin/bash -c "service dbus start"
 
 #base sistemin kurulumu
 #chroot $dizin /bin/bash -c "pisi -y it -c system.base"
-chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"
-chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+chroot $dizin /bin/bash -c "pisi -y it kernel"
+
 
 #dracut uzak entegre1
 #dracutlink="xxx"
@@ -43,10 +43,13 @@ cp /etc/shadow $dizin/etc/
 #fstab ayarlama
 #mv $dizin/etc/fstab $dizin/etc/fstab.orj
 #cp eklenti/fstab $dizin/etc/
-cp eklenti/lock.sh $dizin/opt/
+cp eklenti/tamir $dizin/usr/local/bin/
 
-#ikon ayarlama test
-#ln -s /usr/share/icons/theme-name/cursors ~/.icons/default/cursors
+#ikon ayarlama 
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons"
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default"
+chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default/cursors"
+chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/cursors /root/.icons/default/"
 
 #dns sunucu ayarlama
 mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
@@ -75,6 +78,8 @@ rm -r -f $dizin/tmp/*
 #mkinitramfs eski
 #chroot $dizin /bin/bash -c "mkinitramfs"
 #dracut entegre2
+chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+
 mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 chroot $dizin /bin/bash -c "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
