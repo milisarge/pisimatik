@@ -23,4 +23,8 @@ pisimatik.sh ı root kullanıcısıyla çalıştırın.pisimatik içindeki komut
 elinizde reponun paketleri varsa pisimatik dizininde paket dizini oluşturun,içine atın veya pisilinux kullanıyorsanız pisi paket depolama dizinini kısayol gösterin. 
 Her sefer internetten indirmesine gerek kalmaz. 
 
+qemuda test etmek için qemu-system-x86_64  veya qemu-kvm ile live isoyu çalıştırın.
+
+qemuda fare gözükmemesi durumunda qemuyu --show-cursor parametresiyle çalıştırın
+
 test aşamasındadır,hataları lütfen bildiriniz.
