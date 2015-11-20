@@ -12,9 +12,8 @@ chroot $dizin /bin/bash -c "service dbus start"
 
 #base sistemin kurulumu
 #chroot $dizin /bin/bash -c "pisi -y it -c system.base"
-chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"
-
+chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 
 #dracut uzak entegre1
 #dracutlink="xxx"
@@ -49,13 +48,12 @@ cp /etc/shadow $dizin/etc/
 #mv $dizin/etc/fstab $dizin/etc/fstab.orj
 #cp eklenti/fstab $dizin/etc/
 cp eklenti/tamir $dizin/usr/local/bin/
-cp eklenti/tint2rc $dizin/opt/
 
 #ikon ayarlama 
 chroot $dizin /bin/bash -c "mkdir -p /root/.icons"
 chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default"
 chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default/cursors"
-chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/cursors /root/.icons/default/"
+chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/* /root/.icons/default/"
 
 #dns sunucu ayarlama
 mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
@@ -77,7 +75,7 @@ chmod 777 $dizin/tmp
 #mkinitramfs eski
 #touch $dizin/etc/initramfs.conf
 #echo "liveroot=LABEL=PisiLive" > $dizin/etc/initramfs.conf
-masakos="startlxqt"
+masakos="startxfce4"
 echo "exec "$masakos > $dizin/root/.xinitrc
 
 rm -r -f $dizin/var/cache/pisi/packages/*
@@ -101,4 +99,4 @@ mv $dizin/boot/initramfs* $isodizin/boot/initrd
 #eski vers.
 #mksquashfs $dizin $isodizin/boot/pisi.sqfs
 ./squash.sh
-genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o milis_pisi.iso $isodizin && isohybrid milis_pisi.iso
+genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table -b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o pisi.iso $isodizin && isohybrid pisi.iso

@@ -1,0 +1,28 @@
+-c x11.server
+xorg-video-vesa
+xorg-video-vmware
+xorg-input-vmmouse
+xorg-input-evdev
+xorg-input-kbd
+xorg-input-mouse
+xkeyboard-config
+xinit
+-c desktop.xfce
+icon-theme-xfce4
+xfce4-whiskermenu-plugin
+alsa-utils
+p7zip
+geany
+leafpad
+openssh
+openssl
+adwaita-icon-theme
+rdesktop
+file-roller
+rsync
+firefox
+xterm
+yali
+python-sip
+xdm
+lxdm
