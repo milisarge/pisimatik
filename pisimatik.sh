@@ -49,6 +49,7 @@ cp /etc/shadow $dizin/etc/
 #mv $dizin/etc/fstab $dizin/etc/fstab.orj
 #cp eklenti/fstab $dizin/etc/
 cp eklenti/tamir $dizin/usr/local/bin/
+cp eklenti/tint2rc $dizin/opt/
 
 #ikon ayarlama 
 chroot $dizin /bin/bash -c "mkdir -p /root/.icons"
