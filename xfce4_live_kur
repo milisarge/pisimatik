@@ -9,14 +9,15 @@ xkeyboard-config
 xinit
 -c desktop.xfce
 icon-theme-xfce4
+adwaita-icon-theme
 xfce4-whiskermenu-plugin
 alsa-utils
 p7zip
+git
 geany
 leafpad
 openssh
 openssl
-adwaita-icon-theme
 rdesktop
 file-roller
 rsync

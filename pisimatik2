@@ -1,0 +1,15 @@
+repo=$1
+kurpak=$2
+dizin=kur
+isodizin=iso_icerik
+
+mesaj () {
+    printf "\033[1m$@\n\033[m"
+}
+
+rootfs_olustur () {
+	python rootfs_olustur.py $dizin $repo &&
+}
+
+mesaj "[1/9] root dizin yapısı oluşturuluyor..."
+#rootfs_olustur ()
