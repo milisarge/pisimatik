@@ -11,6 +11,8 @@ usershell=/bin/bash
 masa="xfce4"
 iso_etiket="PisiLive"
 iso_isim="pisi"
+#kernelno="4.2.6"
+kernelno="3.19.8"
 
 mesaj () {
     printf "\033[1m$@\n\033[m"
@@ -91,7 +93,7 @@ aygit_ayar () {
 } 
 
 depo_yedekle () {
-	#rsync -av $dizin/var/cache/pisi/packages/* paket/
+	rsync -av $dizin/var/cache/pisi/packages/* paket/
 }
 
 masa_ayarla () {
@@ -109,7 +111,7 @@ initrd_olustur () {
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
 	chroot $dizin /bin/bash -c "service xdm start"
-	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img 3.19.8"
+	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
 }
 
 iso_ayarla () {
