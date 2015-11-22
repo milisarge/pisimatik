@@ -17,19 +17,22 @@ mesaj () {
 }
 
 rootfs_olustur () {
-	python rootfs_olustur.py $dizin $repo &&
+	python rootfs_olustur.py $dizin $repo
 }
+
 servis_baslat () {
 	chroot $dizin /bin/bash -c "rm -r /boot/boot"
 	chroot $dizin /bin/bash -c "service dbus on"
 	chroot $dizin /bin/bash -c "service dbus start"
 }
+
 kernel_kur (){
 	#base sistemin kurulumu
 	#chroot $dizin /bin/bash -c "pisi -y it -c system.base"
 	chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"	
 	chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
 }
+
 initrd_kur () {
 	#dracut uzak entegre1
 	#dracutlink="xxx"
@@ -40,6 +43,7 @@ initrd_kur () {
 	rsync -av paket/dracut/ $dizin/opt
 	chroot $dizin /bin/bash -c "pisi -y it /opt/*.pisi"
 }
+
 paket_kur () {
 	while read p; do
 	  chroot $dizin /bin/bash -c "pisi -y it ""$p"
@@ -49,17 +53,20 @@ chroot_ayir () {
 	umount $dizin/proc
 	umount $dizin/sys 
 }
+
 ayarlar () {
 	#chroot $dizin /bin/bash -c "pisi cp"
 	rm -r $dizin/boot/initramfs*
 	#hostname 
 	echo $hostname > $dizin/etc/hostname
 	#mevcut parola dosyasinin aktarilmasi
+	chroot $dizin useradd -m -c $root -G root -s $usershell $root
 	chroot $dizin useradd -m -c $live_kul -G audio,video,wheel -s $usershell $live_kul
 	chroot $dizin passwd -d $live_kul >/dev/null 2>&1
 	# Setup default root/user password (pisilinux).
-	chroot $dizin sh -c 'echo "$root:$root_pass" | chpasswd -c SHA512'
-	chroot $dizin sh -c 'echo "$live_kul:$live_pass" | chpasswd -c SHA512'
+	#iptal gcc
+	chroot $dizin sh -c "echo "$root:$root_pass" | chpasswd -c SHA512"
+	chroot $dizin sh -c "echo "$live_kul:$live_pass" | chpasswd -c SHA512"
 	#fstab ayarlama
 	#cp eklenti/fstab $dizin/etc/
 	cp eklenti/tamir $dizin/usr/local/bin/
@@ -72,6 +79,7 @@ ayarlar () {
 	chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default/cursors"
 	chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/* /root/.icons/default/"
 }
+
 aygit_ayar () {
 	rm -r -f $dizin/dev
 	mkdir -p $dizin/dev
@@ -81,17 +89,21 @@ aygit_ayar () {
 	mknod -m 666 $dizin/dev/urandom c 1 9
 	chmod 777 $dizin/tmp
 } 
+
 depo_yedekle () {
-	rsync -av $dizin/var/cache/pisi/packages/* paket/
+	#rsync -av $dizin/var/cache/pisi/packages/* paket/
 }
+
 masa_ayarla () {
 	echo "exec start"$masa > $dizin/root/.xinitrc
 	echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
 }
+
 dosya_temizlik () {
 	rm -r -f $dizin/var/cache/pisi/packages/*
 	rm -r -f $dizin/tmp/*
 }
+
 initrd_olustur () {
 	mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
@@ -99,10 +111,12 @@ initrd_olustur () {
 	chroot $dizin /bin/bash -c "service xdm start"
 	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img 3.19.8"
 }
+
 iso_ayarla () {
 	cp $dizin/boot/kernel* $isodizin/boot/kernel
 	mv $dizin/boot/initramfs* $isodizin/boot/initrd
 } 
+
 squashfs_olustur () {
     mkdir -p tmp
     mkdir -p tmp/LiveOS
@@ -115,16 +129,18 @@ squashfs_olustur () {
     rm -rf temp-root 
     rm -rf $dizin
     mkdir -p iso_icerik/LiveOS
-    mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz
+    mksquashfs tmp iso_icerik/LiveOS/squashfs.img -comp xz -b 256K -Xbcj x86
     chmod 444 iso_icerik/LiveOS/squashfs.img
     rm -rf tmp
 }
+
 iso_olustur () {
 	genisoimage -l -V $iso_etiket -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table  \
 	-b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o $iso_isim.iso $isodizin && isohybrid $iso_isim.iso
 }
+
 temizlik () {
-	chroot_ayir ()
+	chroot_ayir
 	rm -r $dizin
 	rm *.iso
 	rm *.log
@@ -135,39 +151,40 @@ temizlik () {
 	rm -rf temp-root tmp
 	rm -rf iso_icerik/repo
 }	
+
 #ana hareket noktası
 mesaj "[0/15] temizlik yapılıyor..."
-temizlik ()
+temizlik
 mesaj "[1/15] root dizin yapısı oluşturuluyor..."
-rootfs_olustur ()
+rootfs_olustur
 mesaj "[2/15] gerekli servisler başlatılıyor..."
-servis_baslat ()
+servis_baslat
 mesaj "[3/15] kernel kuruluyor..."
-kernel_kur ()
+kernel_kur
 mesaj "[4/15] initram kuruluyor..."
-initrd_kur ()
+initrd_kur
 mesaj "[5/15] paketler kuruluyor..."
-paket_kur ()
+paket_kur
 mesaj "[6/15] chroot ayrılıyor..."
-chroot_ayir ()
+chroot_ayir
 mesaj "[7/15] ayarlar işletiliyor..."
-ayarlar ()
+ayarlar
 mesaj "[8/15] aygit(/dev) dizini ayarlanıyor..."
-aygit_ayar ()
+aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
-depo_yedekle ()
-mesaj "[10/15] otomatik masa yarı yapılıyor..."
-masa_ayarla ()
+depo_yedekle 
+mesaj "[10/15] otomatik masa ayarı yapılıyor..."
+masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."
-dosya_temizlik ()
+dosya_temizlik
 mesaj "[12/15] initrd oluşturuluyor..."
-initrd_olustur ()
+initrd_olustur
 mesaj "[13/15] iso ayarları yapılıyor..."
-iso_ayarla ()
+iso_ayarla
 mesaj "[14/15] squashfs dosya imajı oluşturuluyor..."
-squashfs_olustur ()
+squashfs_olustur
 mesaj "[15/15] iso imajı oluşturuluyor..."
-iso_olustur ()
+iso_olustur
 
 # eski kodlar
 #mkinitramfs eski
@@ -179,7 +196,7 @@ iso_olustur ()
 #dracut entegre2
 
 #dracuta gom
-chroot $dizin /bin/bash -c "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
+#chroot $dizin /bin/bash -c "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
 
 #eski vers.
 #mksquashfs $dizin $isodizin/boot/pisi.sqfs
