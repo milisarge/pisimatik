@@ -11,8 +11,8 @@ usershell=/bin/bash
 masa="xfce4"
 iso_etiket="PisiLive"
 iso_isim="pisi"
-#kernelno="4.2.6"
-kernelno="3.19.8"
+kernelno="4.2.6"
+#kernelno="3.19.8"
 
 mesaj () {
     printf "\033[1m$@\n\033[m"
@@ -111,6 +111,7 @@ initrd_olustur () {
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
 	chroot $dizin /bin/bash -c "service xdm start"
+	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
 	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
 }
 
@@ -174,7 +175,7 @@ ayarlar
 mesaj "[8/15] aygit(/dev) dizini ayarlanıyor..."
 aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
-depo_yedekle 
+#depo_yedekle 
 mesaj "[10/15] otomatik masa ayarı yapılıyor..."
 masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."
