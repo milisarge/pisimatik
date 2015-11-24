@@ -1,13 +1,5 @@
-generate_iso_image() {
-        xorriso -as mkisofs \
-        -iso-level 3 -rock -joliet \
-        -max-iso9660-filenames -omit-period \
-        -omit-version-number -relaxed-filenames -allow-lowercase \
-        -volid "PL" \
-        -eltorito-boot /boot/isolinux/isolinux.bin \
-        -eltorito-catalog /boot/isolinux/boot.cat \
-        -no-emul-boot -boot-load-size 4 -boot-info-table \
-        -output test.iso iso_icerik
+iso_olustur () {
+	genisoimage -l -V PisiLive -R -J -pad -no-emul-boot -boot-load-size 4 -boot-info-table  \
+	-b boot/isolinux/isolinux.bin -c boot/isolinux/boot.cat -o pisi.iso iso_icerik && isohybrid pisi.iso
 }
-
-generate_iso_image
+iso_olustur
