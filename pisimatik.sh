@@ -32,7 +32,7 @@ kernel_kur (){
 	#base sistemin kurulumu
 	#chroot $dizin /bin/bash -c "pisi -y it -c system.base"
 	chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"	
-	chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safe --ignore-dep"
+	chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safety --ignore-dep"
 }
 
 initrd_kur () {
@@ -125,11 +125,14 @@ iso_ayarla () {
 squashfs_olustur () {
     mkdir -p tmp
     mkdir -p tmp/LiveOS
-    fallocate -l 8G tmp/LiveOS/rootfs.img
+    #fallocate -l 32G tmp/LiveOS/rootfs.img
+    dd if=/dev/zero of=tmp/LiveOS/rootfs.img bs=1MB count=4096
+    mkfs.ext3 tmp/LiveOS/rootfs.img
+    mkfs.ext3 -L $iso_etiket tmp/LiveOS/rootfs.img
     mkdir -p temp-root
-    mkfs.ext4 tmp/LiveOS/rootfs.img
     mount -o loop tmp/LiveOS/rootfs.img temp-root
-    rsync -a kur/ temp-root
+    cp -dpR $dizin/* temp-root/
+    #rsync -a kur/ temp-root
     umount temp-root
     rm -rf temp-root 
     rm -rf $dizin
@@ -177,7 +180,7 @@ ayarlar
 mesaj "[8/15] aygit(/dev) dizini ayarlanıyor..."
 aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
-depo_yedekle 
+#depo_yedekle 
 mesaj "[10/15] otomatik masa ayarı yapılıyor..."
 masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."

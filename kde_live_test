@@ -1,0 +1,2 @@
+-c desktop.kde --ignore-file-conflict
+sddm
