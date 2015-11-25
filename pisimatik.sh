@@ -97,8 +97,9 @@ depo_yedekle () {
 }
 
 masa_ayarla () {
-	echo "exec start"$masa > $dizin/root/.xinitrc
-	echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	#echo "exec start"$masa > $dizin/root/.xinitrc
+	#echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	echo "masa ayarlandı"
 }
 
 dosya_temizlik () {
@@ -110,7 +111,8 @@ initrd_olustur () {
 	mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
-	chroot $dizin /bin/bash -c "service xdm start"
+	chroot $dizin /bin/bash -c "service xdm on"
+	chroot $dizin /bin/bash -c "service sddm on"
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
 	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
 	#chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --add 'dmsquash-live pollcdrom' --add-drivers 'squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
@@ -135,7 +137,7 @@ squashfs_olustur () {
     mount -o loop tmp/LiveOS/rootfs.img temp-root
     cp -dpR $dizin/* temp-root/
     #rsync -a kur/ temp-root
-    umount temp-root
+    umount -l temp-root
     rm -rf temp-root 
     rm -rf $dizin
     mkdir -p iso_icerik/LiveOS
