@@ -129,7 +129,7 @@ squashfs_olustur () {
     mkdir -p tmp/LiveOS
     #fallocate -l 32G tmp/LiveOS/rootfs.img
     dd if=/dev/zero of=tmp/LiveOS/rootfs.img bs=1MB count="$((anayer+fazladan))"
-    mkfs.ext3 -F tmp/LiveOS/rootfs.img
+    mkfs.ext3 -F m1 tmp/LiveOS/rootfs.img
     mkfs.ext3 -L $iso_etiket tmp/LiveOS/rootfs.img
     mkdir -p temp-root
     mount -o loop tmp/LiveOS/rootfs.img temp-root
