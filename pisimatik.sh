@@ -85,10 +85,10 @@ ayarlar () {
 aygit_ayar () {
 	rm -r -f $dizin/dev
 	mkdir -p $dizin/dev
-	mknod -m 600 $dizin/dev/console c 5 1
-	mknod -m 666 $dizin/dev/null c 1 3
-	mknod -m 666 $dizin/dev/random c 1 8
-	mknod -m 666 $dizin/dev/urandom c 1 9
+	#mknod -m 600 $dizin/dev/console c 5 1
+	#mknod -m 666 $dizin/dev/null c 1 3
+	#mknod -m 666 $dizin/dev/random c 1 8
+	#mknod -m 666 $dizin/dev/urandom c 1 9
 	chmod 777 $dizin/tmp
 } 
 
@@ -123,11 +123,13 @@ iso_ayarla () {
 } 
 
 squashfs_olustur () {
+    anayer=$(du -sm "$dizin"|awk '{print $1}')
+    fazladan="$((anayer/6))"
     mkdir -p tmp
     mkdir -p tmp/LiveOS
     #fallocate -l 32G tmp/LiveOS/rootfs.img
-    dd if=/dev/zero of=tmp/LiveOS/rootfs.img bs=1MB count=4096
-    mkfs.ext3 tmp/LiveOS/rootfs.img
+    dd if=/dev/zero of=tmp/LiveOS/rootfs.img bs=1MB count="$((anayer+fazladan))"
+    mkfs.ext3 -F tmp/LiveOS/rootfs.img
     mkfs.ext3 -L $iso_etiket tmp/LiveOS/rootfs.img
     mkdir -p temp-root
     mount -o loop tmp/LiveOS/rootfs.img temp-root
