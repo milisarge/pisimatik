@@ -114,8 +114,8 @@ initrd_olustur () {
 	chroot $dizin /bin/bash -c "service xdm on"
 	chroot $dizin /bin/bash -c "service sddm on"
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
-	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
-	#chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --add 'dmsquash-live pollcdrom' --add-drivers 'squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
+	#chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
+	chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --add 'dmsquash-live pollcdrom' --add-drivers 'squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
 	
 }
 
@@ -131,7 +131,7 @@ squashfs_olustur () {
     mkdir -p tmp/LiveOS
     #fallocate -l 32G tmp/LiveOS/rootfs.img
     dd if=/dev/zero of=tmp/LiveOS/rootfs.img bs=1MB count="$((anayer+fazladan))"
-    mkfs.ext3 -F m1 tmp/LiveOS/rootfs.img
+    mkfs.ext3 -F tmp/LiveOS/rootfs.img
     mkfs.ext3 -L $iso_etiket tmp/LiveOS/rootfs.img
     mkdir -p temp-root
     mount -o loop tmp/LiveOS/rootfs.img temp-root
