@@ -171,6 +171,11 @@ do_live_overlay() {
         # Create a snapshot of the base image
         echo 0 $sz thin /dev/mapper/live-overlay-pool 0 $base | dmsetup create live-rw
     else
+        #emergency_shell
+        ln -s /usr/sbin/dmsetup /sbin/
+        modprobe dm_multipath
+        modprobe dm_mod
+        echo "ornek:echo 0 7273437 snapshot /dev/loop1 /dev/loop2 PO 8"
         echo 0 $sz snapshot $base $over PO 8 | dmsetup create live-rw
     fi
 
@@ -249,7 +254,7 @@ if [ -n "$FSIMG" ] ; then
         else
             unpack_archive $FSIMG /run/initramfs/fsimg/
         fi
-        FSIMG = /run/initramfs/fsimg/rootfs.img
+        FSIMG=/run/initramfs/fsimg/rootfs.img
     fi
     if [ -n "$writable_fsimg" ] || [ -z "$SQUASHED" -a -n "$live_ram" ] ||
        [ "$overlay" = none -o "$overlay" = None -o "$overlay" = NONE ]; then

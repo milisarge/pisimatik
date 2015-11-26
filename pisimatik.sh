@@ -113,9 +113,12 @@ initrd_olustur () {
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
 	chroot $dizin /bin/bash -c "service xdm on"
 	chroot $dizin /bin/bash -c "service sddm on"
+	#chroot $dizin /bin/bash -c "/sbin/ldconfig"
+    chroot $dizin /bin/bash -c "modprobe dm_multipath"
+    chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
-	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
-	#chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --add 'dmsquash-live pollcdrom' --add-drivers 'squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
+	#chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
+	chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --force-add milis --add pollcdrom --add-drivers 'dm_multipath squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
 	
 }
 
