@@ -172,12 +172,14 @@ do_live_overlay() {
         echo 0 $sz thin /dev/mapper/live-overlay-pool 0 $base | dmsetup create live-rw
     else
         #emergency_shell
+        loadkeys trq
         ln -s /usr/sbin/dmsetup /sbin/
         modprobe dm_mod
         modprobe dm_multipath
         echo "ornek:echo 0 7273437 snapshot /dev/loop1 /dev/loop2 PO 8"
-        echo 0 $sz snapshot $base $over PO 8 | dmsetup create live-rw &
         emergency_shell
+        echo 0 $sz snapshot $base $over PO 8 | dmsetup create live-rw
+        
     fi
 
     # Create a device that always points to a ro base image
