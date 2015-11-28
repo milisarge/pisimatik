@@ -177,13 +177,14 @@ do_live_overlay() {
         modprobe dm_mod
         modprobe dm_multipath
         echo "ornek:echo 0 7273437 snapshot /dev/loop1 /dev/loop2 PO 8"
-        emergency_shell
-        echo 0 $sz snapshot $base $over PO 8 | dmsetup create live-rw
+        echo 0 $sz snapshot $base $over PO 8 | dmsetup create live-rw &
         
     fi
 
     # Create a device that always points to a ro base image
-    echo 0 $sz linear $BASE_LOOPDEV 0 | dmsetup create --readonly live-base
+    echo 0 $sz linear $BASE_LOOPDEV 0 | dmsetup create --readonly live-base &
+    ln -s /dev/dm-1 /dev/mapper/live-rw
+    #emergency_shell
 }
 
 # live cd helper function

@@ -5,8 +5,8 @@ isodizin=iso_icerik
 root="root"
 root_pass="toor"
 hostname="pisilinux"
-live_kul="pisi"
-live_pass="pisi"
+live_kul="pisix"
+live_pass="pisix"
 usershell=/bin/bash
 masa="xfce4"
 iso_etiket="PisiLive"
@@ -30,7 +30,7 @@ servis_baslat () {
 
 kernel_kur (){
 	#base sistemin kurulumu
-	#chroot $dizin /bin/bash -c "pisi -y it -c system.base"
+	chroot $dizin /bin/bash -c "pisi -y it -c system.base"
 	chroot $dizin /bin/bash -c "pisi -y it kernel --ignore-dep"	
 	chroot $dizin /bin/bash -c "pisi rm mkinitramfs --ignore-safety --ignore-dep"
 }
@@ -63,7 +63,7 @@ ayarlar () {
 	echo $hostname > $dizin/etc/hostname
 	#mevcut parola dosyasinin aktarilmasi
 	chroot $dizin useradd -m -c $root -G root -s $usershell $root
-	chroot $dizin useradd -m -c $live_kul -G audio,video,wheel -s $usershell $live_kul
+	chroot $dizin useradd -m -c $live_kul -G wheel -s $usershell $live_kul
 	chroot $dizin passwd -d $live_kul >/dev/null 2>&1
 	# Setup default root/user password (pisilinux).
 	#iptal gcc
@@ -97,8 +97,8 @@ depo_yedekle () {
 }
 
 masa_ayarla () {
-	#echo "exec start"$masa > $dizin/root/.xinitrc
-	#echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	echo "exec start"$masa > $dizin/root/.xinitrc
+	echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
 	echo "masa ayarlandı"
 }
 
@@ -111,8 +111,8 @@ initrd_olustur () {
 	mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
-	chroot $dizin /bin/bash -c "service xdm on"
-	chroot $dizin /bin/bash -c "service sddm on"
+	#chroot $dizin /bin/bash -c "service xdm on"
+	#chroot $dizin /bin/bash -c "service sddm on"
 	#chroot $dizin /bin/bash -c "/sbin/ldconfig"
     chroot $dizin /bin/bash -c "modprobe dm_multipath"
     chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
