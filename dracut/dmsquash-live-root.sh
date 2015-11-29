@@ -4,7 +4,9 @@ type getarg >/dev/null 2>&1 || . /lib/dracut-lib.sh
 
 command -v unpack_archive >/dev/null || . /lib/img-lib.sh
 
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin
+
+modprobe usb_storage
 
 if getargbool 0 rd.live.debug -n -y rdlivedebug; then
     exec > /tmp/liveroot.$$.out
@@ -62,6 +64,7 @@ det_img_fs() {
 }
 
 modprobe squashfs
+
 CMDLINE=$(getcmdline)
 for arg in $CMDLINE; do case $arg in ro|rw) liverw=$arg ;; esac; done
 # mount the backing of the live image first
@@ -183,6 +186,7 @@ do_live_overlay() {
 
     # Create a device that always points to a ro base image
     echo 0 $sz linear $BASE_LOOPDEV 0 | dmsetup create --readonly live-base &
+    ln -s /dev/dm-0 /dev/mapper/live-base
     ln -s /dev/dm-1 /dev/mapper/live-rw
     #emergency_shell
 }
