@@ -6,8 +6,6 @@ command -v unpack_archive >/dev/null || . /lib/img-lib.sh
 
 PATH=/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin
 
-modprobe usb_storage
-
 if getargbool 0 rd.live.debug -n -y rdlivedebug; then
     exec > /tmp/liveroot.$$.out
     exec 2>> /tmp/liveroot.$$.out

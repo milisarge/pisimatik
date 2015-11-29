@@ -63,7 +63,7 @@ ayarlar () {
 	echo $hostname > $dizin/etc/hostname
 	#mevcut parola dosyasinin aktarilmasi
 	chroot $dizin useradd -m -c $root -G root -s $usershell $root
-	chroot $dizin useradd -m -c $live_kul -G wheel -s $usershell $live_kul
+	chroot $dizin useradd -m -c $live_kul -G sudo,audio,video,cdrom,wheel -s $usershell $live_kul
 	chroot $dizin passwd -d $live_kul >/dev/null 2>&1
 	# Setup default root/user password (pisilinux).
 	#iptal gcc
@@ -115,6 +115,8 @@ initrd_olustur () {
 	#chroot $dizin /bin/bash -c "service sddm on"
 	#chroot $dizin /bin/bash -c "/sbin/ldconfig"
     chroot $dizin /bin/bash -c "modprobe dm_multipath"
+    chroot $dizin /bin/bash -c "modprobe usb_storage"
+    chroot $dizin /bin/bash -c "udevadm hwdb --update"
     chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
 	#chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno

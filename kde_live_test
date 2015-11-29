@@ -1,3 +1,4 @@
+sudo
 -c x11.server
 xorg-video-vesa
 xorg-video-vmware
@@ -10,6 +11,7 @@ xinit
 -c desktop.kde --ignore-file-conflict
 firefox
 geany
+print-manager
 nano
 rdesktop
 git
