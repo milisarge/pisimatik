@@ -60,16 +60,36 @@ chroot_ayir () {
 ayarlar () {
 	#chroot $dizin /bin/bash -c "pisi cp"
 	rm -r $dizin/boot/initramfs*
+	#hostname 
+	echo $hostname > $dizin/etc/hostname
+	#mevcut parola dosyasinin aktarilmasi
+	chroot $dizin /bin/bash -c "useradd -m -c $root -G root -s $usershell $root"
+
+    chroot $dizin /bin/bash -c "groupadd -g 18 messagebus"
+    chroot $dizin /bin/bash -c "useradd -m -d /var/run/dbus -r -s /bin/false -u 18 -g 18 messagebus -c D-Bus Message Daemon"
+    chroot $dizin /bin/bash -c "/sbin/ldconfig -X"
+    
+    chroot $dizin /bin/bash -c "/usr/bin/udevadm hwdb --update"
+	
+	chroot $dizin /bin/bash -c  "useradd -m -c $live_kul -G sudo,audio,video,cdrom,wheel -s $usershell $live_kul"
+	chroot $dizin /bin/bash -c  "passwd -d $live_kul >/dev/null 2>&1"
+	# Setup default root/user password (pisilinux).
+	#iptal gcc
+	chroot $dizin sh -c "echo "$root:$root_pass" | chpasswd -c SHA512"
+	chroot $dizin sh -c "echo "$live_kul:$live_pass" | chpasswd -c SHA512"
 	#fstab ayarlama
 	#cp eklenti/fstab $dizin/etc/
 	cp eklenti/tamir $dizin/usr/local/bin/
-	cp eklenti/sddm.conf $dizin/etc/sddm.confr
 	#dns sunucu ayarlama
 	mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 	cp /etc/resolv.conf $dizin/etc/
-	
+	chroot $dizin /bin/bash -c "pisi -y it avahi"
 	#ikon ayarlama 
-	
+	chroot $dizin /bin/bash -c "mkdir -p /root/.icons"
+	chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default"
+	chroot $dizin /bin/bash -c "mkdir -p /root/.icons/default/cursors"
+	chroot $dizin /bin/bash -c "ln -s /usr/share/icons/Adwaita/* /root/.icons/default/"
+	chroot $dizin /bin/bash -c "pisi rm sddm --ignore-safety --ignore-dep"
 }
 
 aygit_ayar () {
@@ -86,6 +106,12 @@ depo_yedekle () {
 	rsync -av $dizin/var/cache/pisi/packages/* paket/
 }
 
+masa_ayarla () {
+	echo "exec start"$masa > $dizin/root/.xinitrc
+	echo "exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	echo "masa ayarlandı"
+}
+
 dosya_temizlik () {
 	rm -r -f $dizin/var/cache/pisi/packages/*
 	rm -r -f $dizin/tmp/*
@@ -95,7 +121,11 @@ initrd_olustur () {
 	mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
 	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
+	#chroot $dizin /bin/bash -c "service xdm on"
+	#chroot $dizin /bin/bash -c "service sddm on"
 	#chroot $dizin /bin/bash -c "/sbin/ldconfig"
+    chroot $dizin /bin/bash -c "modprobe dm_multipath"
+    chroot $dizin /bin/bash -c "modprobe usb_storage"
     chroot $dizin /bin/bash -c "udevadm hwdb --update"
     chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
@@ -176,7 +206,7 @@ aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
 depo_yedekle 
 mesaj "[10/15] otomatik masa ayarı yapılıyor..."
-
+masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."
 dosya_temizlik
 mesaj "[12/15] initrd oluşturuluyor..."

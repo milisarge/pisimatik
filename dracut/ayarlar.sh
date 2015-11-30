@@ -34,3 +34,11 @@ if [ -f ${NEWROOT}/etc/sudoers ]; then
     echo "${USERNAME}  ALL=(ALL) NOPASSWD: ALL" >> ${NEWROOT}/etc/sudoers
 fi
 
+cp /run/initramfs/live/boot/kernel $NEWROOT/boot/kernel
+pisi cp
+service dbus start
+rm /etc/sddm.conf
+cp /etc/sddm.confr /etc/sddm.conf
+
+
+

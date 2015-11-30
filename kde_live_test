@@ -1,4 +1,8 @@
 sudo
+avahi
+dbus-x11
+ntfs-3g
+ntfsprogs
 -c x11.server
 xorg-video-vesa
 xorg-video-vmware
@@ -9,9 +13,9 @@ xorg-input-mouse
 xkeyboard-config
 xinit
 -c desktop.kde --ignore-file-conflict
+qt5-qdbusviewer
 firefox
 geany
-print-manager
 nano
-rdesktop
+freerdp
 git
