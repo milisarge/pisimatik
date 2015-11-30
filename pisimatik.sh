@@ -8,7 +8,7 @@ hostname="pisilinux"
 live_kul="pisix"
 live_pass="pisix"
 usershell=/bin/bash
-masa="kde"
+masa=""
 iso_etiket="PisiLive"
 iso_isim="pisi"
 kernelno="4.2.6"
@@ -63,7 +63,9 @@ ayarlar () {
 	#fstab ayarlama
 	#cp eklenti/fstab $dizin/etc/
 	cp eklenti/tamir $dizin/usr/local/bin/
-	cp eklenti/sddm.conf $dizin/etc/sddm.confr
+	rm $dizin/etc/sddm.conf
+	cp eklenti/sddm.conf $dizin/etc/sddm.conf
+	#cp eklenti/sudoers $dizin/etc/sudoers
 	#dns sunucu ayarlama
 	mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 	cp /etc/resolv.conf $dizin/etc/
@@ -78,7 +80,7 @@ aygit_ayar () {
 	#mknod -m 600 $dizin/dev/console c 5 1
 	#mknod -m 666 $dizin/dev/null c 1 3
 	#mknod -m 666 $dizin/dev/random c 1 8
-	#mknod -m 666 $dizin/dev/urandom c 1 9
+	mknod -m 666 $dizin/dev/urandom c 1 9
 	chmod 777 $dizin/tmp
 } 
 
@@ -94,7 +96,7 @@ dosya_temizlik () {
 initrd_olustur () {
 	mkdir -p $dizin/usr/lib/dracut/modules.d/01milis
 	cp dracut/* $dizin/usr/lib/dracut/modules.d/01milis/
-	chroot $dizin /bin/bash -c "chmod +x /usr/local/bin/tamir"
+	
 	#chroot $dizin /bin/bash -c "/sbin/ldconfig"
     chroot $dizin /bin/bash -c "udevadm hwdb --update"
     chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
