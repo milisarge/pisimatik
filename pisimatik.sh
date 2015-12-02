@@ -8,7 +8,7 @@ hostname="pisilinux"
 live_kul="pisix"
 live_pass="pisix"
 usershell=/bin/bash
-masa=""
+masa="lxqt"
 iso_etiket="PisiLive"
 iso_isim="pisi"
 kernelno="4.2.6"
@@ -88,6 +88,12 @@ depo_yedekle () {
 	rsync -av $dizin/var/cache/pisi/packages/* paket/
 }
 
+masa_ayarla () {
+	echo "tamir && exec start"$masa > $dizin/root/.xinitrc
+	echo "tamir && exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	echo "masa ayarlandı"
+}
+
 dosya_temizlik () {
 	rm -r -f $dizin/var/cache/pisi/packages/*
 	rm -r -f $dizin/tmp/*
@@ -121,7 +127,8 @@ squashfs_olustur () {
 	then
 	   cp $bos_imaj tmp/LiveOS/ext3fs.img
 	else
-	   dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count="$((anayer+fazladan))"
+	   #dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count="$((anayer+fazladan))"
+	   dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=8096
 	fi
     mkfs.ext4 -F tmp/LiveOS/ext3fs.img
     mkfs.ext4 -L $iso_etiket tmp/LiveOS/ext3fs.img
@@ -178,7 +185,7 @@ aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
 depo_yedekle 
 mesaj "[10/15] otomatik masa ayarı yapılıyor..."
-
+masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."
 dosya_temizlik
 mesaj "[12/15] initrd oluşturuluyor..."

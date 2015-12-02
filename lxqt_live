@@ -7,20 +7,12 @@ xorg-input-kbd
 xorg-input-mouse
 xkeyboard-config
 xinit
+nano
+samba
+mousepad
 -c desktop.lxqt
-adwaita-icon-theme
 firefox
-geany
-nikto
-galculator
-alsa-utils
-leafpad
-rdesktop
-xawtv
+freerdp
 git
-gnumeric
-gvfs
-htop
-pcmanfm
-xdm
-lxdm
+docker
+pcmanfm-qt

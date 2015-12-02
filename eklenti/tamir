@@ -1,3 +1,3 @@
 mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK
-ln -s /usr/lib/nss/* /usr/lib/
+#ln -s /usr/lib/nss/* /usr/lib/
 service dbus start
