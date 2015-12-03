@@ -11,7 +11,7 @@ usershell=/bin/bash
 masa="lxqt"
 iso_etiket="PisiLive"
 iso_isim="pisi"
-kernelno="4.2.6"
+kernelno="4.3.0"
 #kernelno="3.19.8"
 bos_imaj="/opt/ext3fs.img"
 
@@ -80,12 +80,12 @@ aygit_ayar () {
 	#mknod -m 600 $dizin/dev/console c 5 1
 	#mknod -m 666 $dizin/dev/null c 1 3
 	#mknod -m 666 $dizin/dev/random c 1 8
-	mknod -m 666 $dizin/dev/urandom c 1 9
+	#mknod -m 666 $dizin/dev/urandom c 1 9
 	chmod 777 $dizin/tmp
 } 
 
 depo_yedekle () {
-	rsync -av $dizin/var/cache/pisi/packages/* paket/
+	rsync -a $dizin/var/cache/pisi/packages/* paket/
 }
 
 masa_ayarla () {
@@ -123,15 +123,13 @@ squashfs_olustur () {
     mkdir -p tmp
     mkdir -p tmp/LiveOS
     #fallocate -l 32G tmp/LiveOS/rootfs.img
-    if [ -f $bos_imaj ];
-	then
-	   cp $bos_imaj tmp/LiveOS/ext3fs.img
-	else
+    #if [ -f $bos_imaj ];
+	#then
+	   #cp $bos_imaj tmp/LiveOS/ext3fs.img
+	#else
 	   #dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count="$((anayer+fazladan))"
-	   dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=8096
-	fi
-    mkfs.ext4 -F tmp/LiveOS/ext3fs.img
-    mkfs.ext4 -L $iso_etiket tmp/LiveOS/ext3fs.img
+	dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=8096
+    mke2fs -t ext4 -L $iso_etiket -F tmp/LiveOS/ext3fs.img
     mkdir -p temp-root
     mount -o loop tmp/LiveOS/ext3fs.img temp-root
     cp -dpR $dizin/* temp-root/
