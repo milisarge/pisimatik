@@ -23,8 +23,8 @@ fi
 
 # Create new user and remove password. We'll use autologin by default.
 
-chroot ${NEWROOT} sh -c "groupadd -g 18 'messagebus' "
-chroot ${NEWROOT} sh -c "useradd -m -d /var/run/dbus -r -s /bin/false -u 18 -g 18 'messagebus' -c 'D-Bus Message Daemon' "
+#chroot ${NEWROOT} sh -c "groupadd -g 18 'messagebus' "
+#chroot ${NEWROOT} sh -c "useradd -m -d /var/run/dbus -r -s /bin/false -u 18 -g 18 'messagebus' -c 'D-Bus Message Daemon' "
 
 chroot ${NEWROOT} useradd -m -c $USERNAME -G audio,video,wheel -s $USERSHELL $USERNAME
 chroot ${NEWROOT} sh -c "groupadd -fg 84 avahi && useradd -c 'Avahi Daemon Owner' -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi"
@@ -37,9 +37,7 @@ chroot ${NEWROOT} sh -c "echo "$USERNAME:pisix" | chpasswd -c SHA512"
 #gerekli ayarlar
 #chroot ${NEWROOT} sh -c "chmod +x /usr/local/bin/tamir"
 chroot ${NEWROOT} sh -c  "mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK"
-chroot ${NEWROOT} sh -c  "ln -s /usr/lib/nss/* /usr/lib/"
 
-chroot ${NEWROOT} sh -c  "service dbus start"
 # Enable sudo permission by default.
 if [ -f ${NEWROOT}/etc/sudoers ]; then
     echo "${USERNAME}  ALL=(ALL) NOPASSWD: ALL" >> ${NEWROOT}/etc/sudoers

@@ -11,6 +11,7 @@ nano
 samba
 mousepad
 -c desktop.lxqt
+oxygen-icons
 firefox
 freerdp
 git
@@ -19,4 +20,3 @@ Thunar
 thunar-archive-plugin
 docker
 pcmanfm-qt
-xdm
