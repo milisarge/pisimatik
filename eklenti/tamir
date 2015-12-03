@@ -1,5 +1,5 @@
 mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK
-#ln -s /usr/lib/nss/* /usr/lib/
-#ln -s /usr/lib/lxqt-config/* /usr/lib/
+ln -s /usr/lib/nss/* /usr/lib/
+ln -s /usr/lib/lxqt-config/* /usr/lib/
 glib-compile-schemas /usr/share/glib-2.0/schemas
 service dbus start

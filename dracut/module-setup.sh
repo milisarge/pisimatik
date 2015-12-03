@@ -17,7 +17,7 @@ depends() {
 
 # called by dracut
 installkernel() {
-    instmods squashfs loop iso9660 usb_storage dm_mod
+    instmods squashfs loop iso9660 
 }
 
 # called by dracut

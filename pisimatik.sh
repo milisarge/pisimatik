@@ -8,7 +8,7 @@ hostname="pisilinux"
 live_kul="pisix"
 live_pass="pisix"
 usershell=/bin/bash
-masa="lxqt"
+#masa="lxqt"
 iso_etiket="PisiLive"
 iso_isim="pisi"
 kernelno="4.3.0"
@@ -89,8 +89,10 @@ depo_yedekle () {
 }
 
 masa_ayarla () {
-	echo "tamir && exec start"$masa > $dizin/root/.xinitrc
-	echo "tamir && exec start"$masa > $dizin/home/$live_kul/.xinitrc
+	echo "tamir"$masa >> $dizin/root/.xinitrc
+	echo "exec start"$masa >> $dizin/root/.xinitrc
+	echo "tamir"$masa >> $dizin/home/$live_kul/.xinitrc
+	echo "exec start"$masa >> $dizin/home/$live_kul/.xinitrc
 	echo "masa ayarlandı"
 }
 
@@ -107,8 +109,8 @@ initrd_olustur () {
     chroot $dizin /bin/bash -c "udevadm hwdb --update"
     chroot $dizin /bin/bash -c "/sbin/depmod "$kernelno
 	#kernelno=ls /boot/kernel* | xargs -n1 basename | sort -rV | head -1 | sed 's/kernel-//'
-	#chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
-	chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --force-add milis --add pollcdrom --add-drivers 'dm_multipath squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
+	chroot $dizin /bin/bash -c "dracut -N --xz --force-add milis --omit systemd /boot/initramfs.img "$kernelno
+	#chroot $dizin /bin/bash -c "dracut --no-hostonly-cmdline -N --force --xz --force-add milis --add pollcdrom --add-drivers 'dm_multipath squashfs ext3 ext2 vfat msdos sr_mod sd_mod ehci_hcd uhci_hcd xhci_hcd xhci_pci ohci_hcd usb_storage usbhid dm_mod device-mapper ata_generic libata' /boot/initramfs.img "$kernelno
 	
 }
 
@@ -183,7 +185,7 @@ aygit_ayar
 mesaj "[9/15] indirilen paket deposu yedekleniyor..."
 depo_yedekle 
 mesaj "[10/15] otomatik masa ayarı yapılıyor..."
-masa_ayarla
+#masa_ayarla
 mesaj "[11/15] gereksiz dosyalar siliniyor..."
 dosya_temizlik
 mesaj "[12/15] initrd oluşturuluyor..."

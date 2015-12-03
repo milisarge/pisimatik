@@ -1,5 +1,8 @@
 #!/bin/sh
 
+modprobe usb_storage
+modprobe dm_mod
+
 type getarg >/dev/null 2>&1 || . /lib/dracut-lib.sh
 
 [ -z "$root" ] && root=$(getarg root=)
