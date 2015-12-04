@@ -1,3 +1,4 @@
+-c hardware.firmware
 bash-completion
 device-mapper-static
 libxkbcommon
