@@ -130,7 +130,7 @@ squashfs_olustur () {
 	   #cp $bos_imaj tmp/LiveOS/ext3fs.img
 	#else
 	   #dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count="$((anayer+fazladan))"
-	dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=8096
+	dd if=/dev/zero of=tmp/LiveOS/ext3fs.img bs=1MB count=16192
     mke2fs -t ext4 -L $iso_etiket -F tmp/LiveOS/ext3fs.img
     mkdir -p temp-root
     mount -o loop tmp/LiveOS/ext3fs.img temp-root
