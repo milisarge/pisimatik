@@ -1,4 +1,12 @@
+bash-completion
+device-mapper-static
+libxkbcommon
+lvm2-static
+mdadm-static
+module-virtualbox
+module-virtualbox-guest
 -c x11.server
+-c x11.driver
 xorg-video-vesa
 xorg-video-vmware
 xorg-input-vmmouse
@@ -7,6 +15,11 @@ xorg-input-kbd
 xorg-input-mouse
 xkeyboard-config
 xinit
+panda
+pisilinux-python-xorg
+pisilinux-desktop-service
+sudo
+avahi
 nano
 samba
 mousepad
@@ -16,5 +29,3 @@ firefox
 freerdp
 git
 htop
-docker
-pcmanfm-qt

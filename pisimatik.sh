@@ -69,18 +69,18 @@ ayarlar () {
 	#dns sunucu ayarlama
 	mv $dizin/etc/resolv.conf $dizin/etc/resolv.conf.orj
 	cp /etc/resolv.conf $dizin/etc/
-	
 	#ikon ayarlama 
+	rsync -av eklenti/.config $dizin/root/
 	
 }
 
 aygit_ayar () {
 	rm -r -f $dizin/dev
 	mkdir -p $dizin/dev
-	#mknod -m 600 $dizin/dev/console c 5 1
-	#mknod -m 666 $dizin/dev/null c 1 3
-	#mknod -m 666 $dizin/dev/random c 1 8
-	#mknod -m 666 $dizin/dev/urandom c 1 9
+	mknod -m 600 $dizin/dev/console c 5 1
+	mknod -m 666 $dizin/dev/null c 1 3
+	mknod -m 666 $dizin/dev/random c 1 8
+	mknod -m 666 $dizin/dev/urandom c 1 9
 	chmod 777 $dizin/tmp
 } 
 

@@ -28,13 +28,13 @@ fi
 #chroot ${NEWROOT} sh -c "groupadd -g 18 'messagebus' "
 #chroot ${NEWROOT} sh -c "useradd -m -d /var/run/dbus -r -s /bin/false -u 18 -g 18 'messagebus' -c 'D-Bus Message Daemon' "
 
-chroot ${NEWROOT} useradd -m -c $USERNAME -G audio,video,wheel,utmp -s $USERSHELL $USERNAME
-#chroot ${NEWROOT} sh -c "groupadd -fg 84 avahi && useradd -c 'Avahi Daemon Owner' -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi"
-chroot ${NEWROOT} passwd -d $USERNAME >/dev/null 2>&1
+chroot ${NEWROOT} sh -c 'useradd -m -c $USERNAME -G audio,video,wheel,utmp -s $USERSHELL $USERNAME'
+chroot ${NEWROOT} sh -c "groupadd -fg 84 avahi && useradd -c 'Avahi Daemon Owner' -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi"
+chroot ${NEWROOT} sh -c "passwd -d $USERNAME >/dev/null 2>&1"
 
 # Setup default root/user password (pisilinux).
 chroot ${NEWROOT} sh -c 'echo "root:toor" | chpasswd -c SHA512'
-chroot ${NEWROOT} sh -c "echo "$USERNAME:pisix" | chpasswd -c SHA512"
+chroot ${NEWROOT} sh -c 'echo $USERNAME:pisix | chpasswd -c SHA512'
 
 #gerekli ayarlar
 #chroot ${NEWROOT} sh -c "chmod +x /usr/local/bin/tamir"
