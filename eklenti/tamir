@@ -2,7 +2,6 @@ mkdir -p /run/lock/files.ldb && touch /run/lock/files.ldb/LOCK
 ln -s /usr/lib/nss/* /usr/lib/
 ln -s /usr/lib/lxqt-config/* /usr/lib/
 glib-compile-schemas /usr/share/glib-2.0/schemas
-NetworkManager && nm-applet
 cp /usr/bin/vlc /usr/bin/vlc-backup &&
 needle=$(objdump -d /usr/bin/vlc | grep euid | tail -1 | awk '{print "\\x"$2"\\x"$3"\\x"$4"\\x"$5"\\x"$6;}')  &&
 sed -ir "s/$needle/\xb8\x01\x00\x00\x00/" /usr/bin/vlc
