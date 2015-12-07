@@ -2,6 +2,15 @@ sudo
 ntfs-3g
 ntfsprogs
 -c x11.server
+-c hardware.firmware
+bash-completion
+device-mapper-static
+libxkbcommon
+lvm2-static
+mdadm-static
+module-virtualbox
+module-virtualbox-guest
+-c x11.driver
 xorg-video-vesa
 xorg-video-vmware
 xorg-input-vmmouse
