@@ -1,5 +1,17 @@
 # pisimatik
-pisilinux iso türetme ve kurulum aracı
+pisilinux iso türetme ve kurulum aracı.
+
+Pisimatik Mekanizma 
+
+1-Sıfırdan kaynak kodlar kullanılarak temel sistem oluşturma.
+
+2-Hazır derlenmiş paketleri kullanarak sistem oluşturma.
+
+3-Belli bir ayar dosyasını kullanarak veya kurulu sistemi kullanarak iso türetme.
+
+4-Kurulan ve çalışan iso türetme.
+
+5-Hedef diske hızlı sistem kurulumu
 
 gerekliler
 
