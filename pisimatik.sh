@@ -11,7 +11,7 @@ usershell=/bin/bash
 #masa="lxqt"
 iso_etiket="PisiLive"
 iso_isim="pisi"
-kernelno="4.3.0"
+kernelno="4.4.1"
 #kernelno="3.19.8"
 bos_imaj="/opt/ext3fs.img"
 
